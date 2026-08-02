@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Espresso", "category": "Classic", "price": 3.5, "description": "Single shot of rich espresso." },
+  { "id": 2, "name": "Americano", "category": "Classic", "price": 4.0, "description": "Espresso and hot water." },
+  { "id": 3, "name": "Cappuccino", "category": "Milk", "price": 5.0, "description": "Espresso, steamed milk, and foam." },
+  { "id": 4, "name": "Latte", "category": "Milk", "price": 5.5, "description": "Espresso with steamed milk and a light foam." },
+  { "id": 5, "name": "Mocha", "category": "Flavor", "price": 6.0, "description": "Chocolate latte with espresso." },
+  { "id": 6, "name": "Iced Coffee", "category": "Cold", "price": 4.5, "description": "Chilled brewed coffee over ice." }
+]
