@@ -434,6 +434,36 @@ function bootstrapStaticDemoData() {
 
 bootstrapStaticDemoData();
 
+// Auto-initialize Firebase when runtime config or bootstrap config is available.
+(async function autoInitFirebaseOnLoad() {
+  try {
+    const cfg = getFirebaseConfig();
+    if (canUseFirebase(cfg)) {
+      firebaseDb = initFirebase(cfg);
+      if (firebaseDb) {
+        console.info('Auto-initialized Firebase with existing runtime config.');
+        try {
+          await Promise.all([loadProducts(), loadOrders(), loadOrderItems(), loadIngredients(), loadIngredientCostEntries(), loadRecipes()]);
+          renderReports();
+        } catch (e) {
+          console.warn('Auto data load failed after Firebase init.', e);
+        }
+      }
+      return;
+    }
+
+    // If no stored runtime config, try fetching a minimal bootstrap config
+    // to enable Auth-only initialization so admins can sign in.
+    const bootstrap = await fetchBootstrapConfigFromServer();
+    if (bootstrap && bootstrap.apiKey && bootstrap.authDomain) {
+      initFirebaseAuthOnly(bootstrap);
+      console.info('Initialized Firebase auth-only using bootstrap config from server.');
+    }
+  } catch (error) {
+    console.error('Auto Firebase initialization failed.', error);
+  }
+})();
+
 function readStoredArray(key, fallback = []) {
   try {
     const storedValue = localStorage.getItem(key);
